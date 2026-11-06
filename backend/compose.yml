@@ -1,0 +1,10 @@
+# backend/docker-compose.yml
+version: '3.8'
+
+services:
+  redis:
+    image: redis:alpine
+    container_name: shared-redis
+    ports:
+      - "6379:6379"
+    restart: unless-stopped

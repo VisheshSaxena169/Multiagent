@@ -1,0 +1,188 @@
+# ==========================================
+# Comprehensive .gitignore for Multi-Agent
+# (Frontend: Vite/React/Tailwind/pnpm)
+# (Backend: Express Gateway, Auth & AI Microservices, Docker/Redis/Mongo)
+# ==========================================
+
+# ------------------------------------------
+# Environment & Secrets (CRITICAL)
+# ------------------------------------------
+.env
+.env.*
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Preserve example/template environment files
+!.env.example
+!.env.sample
+!.env*.example
+!.env*.sample
+!.env.template
+
+# Service accounts, private keys, certificates, API tokens
+*service-account*.json
+*serviceAccount*.json
+*credentials*.json
+firebase-service-account.json
+*.pem
+*.key
+*.cert
+*.crt
+*.pfx
+*.p12
+*.keystore
+id_rsa*
+id_ed25519*
+
+# ------------------------------------------
+# Dependencies
+# ------------------------------------------
+node_modules/
+.pnp/
+.pnp.js
+.pnpm-store/
+
+# ------------------------------------------
+# Production Builds & Compiled Outputs
+# ------------------------------------------
+dist/
+dist-ssr/
+build/
+out/
+bin/
+obj/
+*.tsbuildinfo
+
+# ------------------------------------------
+# Logs
+# ------------------------------------------
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# ------------------------------------------
+# Cache & Tool Storage
+# ------------------------------------------
+.cache/
+.parcel-cache/
+.eslintcache
+.oxlintcache
+.stylelintcache
+.turbo/
+.vite/
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
+
+# ------------------------------------------
+# Testing & Code Coverage
+# ------------------------------------------
+coverage/
+.nyc_output/
+*.lcov
+cypress/videos/
+cypress/screenshots/
+playwright-report/
+test-results/
+
+# ------------------------------------------
+# Runtime & Generated Temporary Files
+# ------------------------------------------
+tmp/
+temp/
+*.tmp
+*.temp
+
+# AI generated PDF documents and uploads
+public/pdfs/*.pdf
+**/public/pdfs/*.pdf
+!**/public/pdfs/.gitkeep
+uploads/
+downloads/
+
+# ------------------------------------------
+# Database & Redis Dumps
+# ------------------------------------------
+# Redis
+dump.rdb
+*.rdb
+appendonly.aof
+*.aof
+
+# Databases / Backups / SQLite / Mongo dumps
+*.sqlite
+*.sqlite3
+*.db
+*.db-journal
+*.db-shm
+*.db-wal
+*.sql
+*.dump
+*.backup
+*.bak
+mongodump/
+
+# ------------------------------------------
+# Docker Local Overrides
+# ------------------------------------------
+.docker/
+docker-compose.override.yml
+compose.override.yml
+
+# ------------------------------------------
+# IDEs & Code Editors
+# ------------------------------------------
+# Visual Studio Code
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/launch.json
+
+# JetBrains / IntelliJ / WebStorm
+.idea/
+
+# Visual Studio / Windows tools
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.user
+*.userosscache
+*.sln.docstates
+
+# Editors & swap files
+*.sw?
+*.swp
+*.swo
+*~
+.sublime-*
+*.code-workspace
+
+# ------------------------------------------
+# OS-Specific Files
+# ------------------------------------------
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+[Dd]esktop.ini
+$RECYCLE.BIN/
+
+# Linux
+.directory
+.fuse_hidden*
+
