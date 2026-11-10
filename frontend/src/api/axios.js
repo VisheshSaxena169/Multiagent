@@ -41,7 +41,7 @@ api.interceptors.response.use(
         }
 
         // Call the refresh endpoint using base axios (NOT 'api') to avoid triggering interceptors again
-        const { data } = await axios.post('http://localhost:3000/auth/api/user/refresh-token', {
+        const { data } = await axios.post('http://zyqon.duckdns.org:3000/auth/api/user/refresh-token', {
           refreshToken: refreshToken
         });
 
