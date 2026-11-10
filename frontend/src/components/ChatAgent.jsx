@@ -15,7 +15,7 @@ const ChatAgent = ({ threadId }) => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [isStreaming, setIsStreaming] = useState(false);
-  
+
   const [activeAgent, setActiveAgent] = useState('auto'); // 'auto', 'chat', 'code', 'pdf'
   const messagesEndRef = useRef(null);
   const [previewCode, setPreviewCode] = useState(null);
@@ -31,7 +31,7 @@ const ChatAgent = ({ threadId }) => {
     const loadPastMessages = async () => {
       try {
         const { data } = await api.get(`/ai/history/${threadId}`);
-        
+
         if (data.success && data.messages.length > 0) {
           setMessages(data.messages);
         } else {
@@ -61,12 +61,12 @@ const ChatAgent = ({ threadId }) => {
     if (activeAgent === 'pdf') finalPrompt = `[PDF INSTRUCTION: Generate a PDF for the following] ${finalPrompt}`;
     if (activeAgent === 'code') finalPrompt = `[CODE INSTRUCTION: Write code for the following] ${finalPrompt}`;
 
-    const userMessage = input.trim(); 
+    const userMessage = input.trim();
     setInput('');
     setIsStreaming(true);
 
     setMessages(prev => [
-      ...prev, 
+      ...prev,
       { role: 'user', content: userMessage },
       { role: 'ai', content: '' }
     ]);
@@ -74,7 +74,7 @@ const ChatAgent = ({ threadId }) => {
     try {
       // Force token refresh if expired
       await api.get('/auth/api/user/profile');
-      
+
       const response = await fetch('http://localhost:3000/ai/chat', {
         method: 'POST',
         headers: {
@@ -85,25 +85,25 @@ const ChatAgent = ({ threadId }) => {
       });
 
       if (!response.ok) {
-          if (response.status === 401) throw new Error("Session expired. Please refresh.");
-          throw new Error('Network response was not ok');
+        if (response.status === 401) throw new Error("Session expired. Please refresh.");
+        throw new Error('Network response was not ok');
       }
 
       // Setup the reader
       const reader = response.body.getReader();
       const decoder = new TextDecoder();
-      
+
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
 
         const chunkString = decoder.decode(value, { stream: true });
-        const events = chunkString.split('\n\n'); 
-        
+        const events = chunkString.split('\n\n');
+
         for (const event of events) {
           if (event.startsWith('data: ')) {
             const dataStr = event.replace('data: ', '').trim();
-            
+
             if (dataStr === '[DONE]') {
               setIsStreaming(false);
               break;
@@ -116,12 +116,12 @@ const ChatAgent = ({ threadId }) => {
                   setMessages((prev) => {
                     const newMessages = [...prev];
                     const lastIndex = newMessages.length - 1;
-                    
+
                     newMessages[lastIndex] = {
                       ...newMessages[lastIndex],
                       content: newMessages[lastIndex].content + parsed.chunk
                     };
-                    
+
                     return newMessages;
                   });
                 }
@@ -140,7 +140,7 @@ const ChatAgent = ({ threadId }) => {
     }
   };
 
-return (
+  return (
     <div className="flex h-full w-full overflow-hidden bg-[#212121]">
 
       {/* LEFT COLUMN: Chat Area - ADDED min-w-0 FIX */}
@@ -149,19 +149,19 @@ return (
         {/* Top Header: Agent Selection */}
         <div className="w-full flex items-center justify-center p-3 border-b border-white/10 bg-[#212121] sticky top-0 z-10 shrink-0">
           <div className="flex bg-[#171717] rounded-lg p-1 border border-white/10 flex-wrap justify-center">
-            <button 
+            <button
               onClick={() => setActiveAgent('auto')}
               className={`flex items-center gap-2 px-4 py-1.5 rounded-md text-sm font-medium transition-colors ${activeAgent === 'auto' ? 'bg-[#212121] text-white shadow' : 'text-gray-400 hover:text-white'}`}
             >
               <Sparkles className="w-4 h-4" /> Auto
             </button>
-            <button 
+            <button
               onClick={() => setActiveAgent('code')}
               className={`flex items-center gap-2 px-4 py-1.5 rounded-md text-sm font-medium transition-colors ${activeAgent === 'code' ? 'bg-[#212121] text-white shadow' : 'text-gray-400 hover:text-white'}`}
             >
               <Code className="w-4 h-4" /> Code
             </button>
-            <button 
+            <button
               onClick={() => setActiveAgent('pdf')}
               className={`flex items-center gap-2 px-4 py-1.5 rounded-md text-sm font-medium transition-colors ${activeAgent === 'pdf' ? 'bg-[#212121] text-white shadow' : 'text-gray-400 hover:text-white'}`}
             >
@@ -173,34 +173,34 @@ return (
         {/* Chat Messages Area */}
         <div className="flex-1 overflow-y-auto p-4 custom-scrollbar">
           <div className="max-w-3xl mx-auto flex flex-col space-y-6 pb-24 mt-8">
-            
+
             {messages.length === 0 && (
               <div className="flex flex-col items-center justify-center text-gray-500 mt-20">
                 <div className="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center mb-4 border border-white/10">
                   <Bot className="w-8 h-8 text-gray-400" />
                 </div>
-                <h2 className="text-xl font-semibold text-gray-300 mb-2 text-center">How can I help you today?</h2>
+                <h2 className="text-xl font-semibold text-gray-300 mb-2 text-center">How can I help you today??????</h2>
                 <p className="text-sm text-center">Select an agent above or let the Supervisor decide.</p>
               </div>
             )}
-            
+
             {messages.map((msg, idx) => (
-              <motion.div 
+              <motion.div
                 key={idx}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
               >
                 <div className={`flex items-start max-w-[95%] sm:max-w-[85%] min-w-0 ${msg.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}>
-                  
+
                   {/* Avatar */}
                   <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 mt-1 ${msg.role === 'user' ? 'bg-blue-600 ml-4' : 'bg-green-600 mr-4'}`}>
                     {msg.role === 'user' ? <User className="w-5 h-5 text-white" /> : <Bot className="w-5 h-5 text-white" />}
                   </div>
-                  
+
                   {/* Message Bubble - ADDED overflow-x-auto and break-words FIX */}
                   <div className={`p-4 rounded-2xl min-w-0 overflow-x-auto ${msg.role === 'user' ? 'bg-[#2f2f2f] text-gray-100 rounded-tr-none' : 'text-gray-200 w-full'}`}>
-                    
+
                     {msg.role === 'ai' && isStreaming && msg.content === '' && idx === messages.length - 1 ? (
                       <div className="flex items-center gap-3 h-6 text-gray-400">
                         <Sparkles className="w-5 h-5 text-blue-400 animate-spin" style={{ animationDuration: '3s' }} />
@@ -209,46 +209,46 @@ return (
                     ) : (
                       <>
                         <div className="prose prose-invert max-w-none break-words min-w-0">
-                            <ReactMarkdown 
-                                remarkPlugins={[remarkGfm]}
-                                components={{
-                                  code({node, inline, className, children, ...props}) {
-                                    const match = /language-(\w+)/.exec(className || '');
-                                    const codeString = String(children).replace(/\n$/, '');
-                                    
-                                    return !inline && match ? (
-                                      <div className="rounded-md overflow-hidden my-4 border border-white/10 w-full min-w-0">
-                                        <div className="bg-black/40 text-gray-400 text-xs px-4 py-2 border-b border-white/10 flex justify-between items-center">
-                                          <span>{match[1]}</span>
-                                          {match[1] === 'html' && (
-                                            <button 
-                                              onClick={() => setPreviewCode(codeString)}
-                                              className="bg-blue-600 hover:bg-blue-500 text-white px-3 py-1 rounded shadow transition-colors flex items-center gap-1 shrink-0"
-                                            >
-                                              ▶ Live Preview
-                                            </button>
-                                          )}
-                                        </div>
-                                        <SyntaxHighlighter
-                                          style={vscDarkPlus}
-                                          language={match[1]}
-                                          PreTag="div"
-                                          customStyle={{ margin: 0, padding: '1rem', background: 'transparent', overflowX: 'auto' }}
-                                          {...props}
+                          <ReactMarkdown
+                            remarkPlugins={[remarkGfm]}
+                            components={{
+                              code({ node, inline, className, children, ...props }) {
+                                const match = /language-(\w+)/.exec(className || '');
+                                const codeString = String(children).replace(/\n$/, '');
+
+                                return !inline && match ? (
+                                  <div className="rounded-md overflow-hidden my-4 border border-white/10 w-full min-w-0">
+                                    <div className="bg-black/40 text-gray-400 text-xs px-4 py-2 border-b border-white/10 flex justify-between items-center">
+                                      <span>{match[1]}</span>
+                                      {match[1] === 'html' && (
+                                        <button
+                                          onClick={() => setPreviewCode(codeString)}
+                                          className="bg-blue-600 hover:bg-blue-500 text-white px-3 py-1 rounded shadow transition-colors flex items-center gap-1 shrink-0"
                                         >
-                                          {codeString}
-                                        </SyntaxHighlighter>
-                                      </div>
-                                    ) : (
-                                      <code className="bg-white/10 text-pink-300 px-1.5 py-0.5 rounded text-sm font-mono break-all" {...props}>
-                                        {children}
-                                      </code>
-                                    );
-                                  }
-                                }}
-                            >
-                                {msg.content}
-                            </ReactMarkdown>
+                                          ▶ Live Preview
+                                        </button>
+                                      )}
+                                    </div>
+                                    <SyntaxHighlighter
+                                      style={vscDarkPlus}
+                                      language={match[1]}
+                                      PreTag="div"
+                                      customStyle={{ margin: 0, padding: '1rem', background: 'transparent', overflowX: 'auto' }}
+                                      {...props}
+                                    >
+                                      {codeString}
+                                    </SyntaxHighlighter>
+                                  </div>
+                                ) : (
+                                  <code className="bg-white/10 text-pink-300 px-1.5 py-0.5 rounded text-sm font-mono break-all" {...props}>
+                                    {children}
+                                  </code>
+                                );
+                              }
+                            }}
+                          >
+                            {msg.content}
+                          </ReactMarkdown>
                         </div>
                         {msg.role === 'ai' && isStreaming && idx === messages.length - 1 && (
                           <span className="inline-block w-2 h-4 bg-gray-400 ml-1 animate-pulse mt-1" />
@@ -281,8 +281,8 @@ return (
                   }
                 }}
               />
-              <button 
-                type="submit" 
+              <button
+                type="submit"
                 disabled={!input.trim() || isStreaming}
                 className="absolute right-3 bottom-3 p-1.5 bg-white text-black hover:bg-gray-200 rounded-lg transition-colors disabled:opacity-30 disabled:bg-gray-500 disabled:text-gray-300"
               >
@@ -304,14 +304,14 @@ return (
               <Code className="w-4 h-4 text-gray-600 shrink-0" />
               <span className="text-sm font-semibold text-gray-800 truncate">Live Preview</span>
             </div>
-            <button 
+            <button
               onClick={() => setPreviewCode(null)}
               className="text-gray-500 hover:text-gray-800 text-sm font-medium transition-colors shrink-0"
             >
               Close
             </button>
           </div>
-          
+
           <iframe
             className="w-full flex-1 border-none bg-white"
             srcDoc={previewCode}
