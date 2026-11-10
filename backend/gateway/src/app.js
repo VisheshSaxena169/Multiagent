@@ -13,7 +13,7 @@ const app = express();
 // This automatically answers 'OPTIONS' preflight requests and injects the correct headers.
 app.use(cors({
     // Explicitly allow both local URL variations along with your production URL
-    origin: ['http://localhost:5173', 'http://127.0.0.1:5173', process.env.FRONTEND_URL], 
+    origin: ['http://zyqon.duckdns.org', 'http://zyqon.duckdns.org:5173','http://localhost:5173', 'http://127.0.0.1:5173', process.env.FRONTEND_URL], 
     credentials: true, 
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization']
