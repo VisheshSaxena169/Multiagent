@@ -17,6 +17,7 @@ jobs:
             cd ~/Multiagent
             git pull origin main
             npm install --prefix frontend
+            npm run build --prefix frontend
             npm install --prefix backend/gateway
             npm install --prefix backend/services/auth
             npm install --prefix backend/services/ai
