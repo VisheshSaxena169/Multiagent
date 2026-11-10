@@ -15,7 +15,7 @@ const { getAuth } = require('firebase-admin/auth');
 //     return { uid, email, name, picture };
 // };
 
-const User = require('../models/user.model'); 
+const User = require('../models/User.model'); 
 
 const verifyGoogleToken = async (idToken) => {
 // 2. Use getAuth() instead of admin.auth()
