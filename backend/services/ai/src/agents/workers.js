@@ -92,7 +92,7 @@ const pdfAgentNode = async (state) => {
 
         // Wait for Windows to physically close the file handle before telling the frontend it's ready
         stream.on("close", () => {
-            const downloadMessage = `I have generated your document!\n\n[📥 Click here to download ${fileName}](http://localhost:3002/pdfs/${fileName})`;
+            const downloadMessage = `I have generated your document!\n\n[📥 Click here to download ${fileName}](http://zyqon.duckdns.org:3002/pdfs/${fileName})`;
             resolve({ messages: [new AIMessage(downloadMessage)] });
         });
         
