@@ -122,12 +122,14 @@ const Dashboard = () => {
     <div className="flex h-screen bg-[#212121] text-white font-sans overflow-hidden">
       
       {/* LEFT SIDEBAR (Animated Width) */}
-      <aside className={`bg-[#171717] flex flex-col justify-between flex-shrink-0 transition-all duration-300 ease-in-out ${isSidebarOpen ? 'w-[260px]' : 'w-0'}`}>
+      {/* LEFT SIDEBAR (Animated Width) */}
+      <aside className={`bg-[#171717] flex flex-col flex-shrink-0 transition-all duration-300 ease-in-out ${isSidebarOpen ? 'w-[260px]' : 'w-0'}`}>
         
         {/* Inner container with fixed width prevents content from squishing during animation */}
         <div className="w-[260px] flex flex-col h-full overflow-hidden">
-          {/* Top: New Chat & History */}
-          <div className="p-3 flex flex-col gap-4 overflow-y-auto custom-scrollbar pb-32"> 
+          
+          {/* Top: New Chat & History (Added flex-1 here to push profile down) */}
+          <div className="flex-1 p-3 flex flex-col gap-4 overflow-y-auto custom-scrollbar"> 
             
             {/* TOGGLE BUTTON & NEW CHAT */}
             <div className="flex gap-2">
@@ -232,7 +234,7 @@ const Dashboard = () => {
           </div>
 
           {/* Bottom: Profile & Logout */}
-          <div className="p-3 border-t border-white/10">
+          <div className="p-3 border-t border-white/10 shrink-0">
             <div className="flex items-center justify-between p-2 hover:bg-white/10 rounded-md cursor-pointer transition-colors group">
               <div className="flex items-center gap-3 overflow-hidden">
                 {profile.picture ? (
