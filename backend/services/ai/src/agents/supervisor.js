@@ -1,36 +1,3 @@
-// // backend/services/ai/src/agents/supervisor.js
-// const { z } = require("zod");
-// const { SystemMessage } = require("@langchain/core/messages");
-// const { llm } = require("./llm");
-// const { ChatGoogleGenerativeAI } = require("@langchain/google-genai");
-
-// // Define the exact JSON structure the AI must return
-// const routeSchema = z.object({
-//     nextAgent: z.enum(["chatAgent", "codeAgent", "pdfAgent"]).describe("The next agent to route the user's request to."),
-// });
-
-// const supervisorNode = async (state) => {
-//     const supervisorLLM = llm.withStructuredOutput(routeSchema);
-    
-//     const systemPrompt = new SystemMessage(
-//         `You are a supervisor managing a team of AI workers: 'chatAgent', 'codeAgent', and 'pdfAgent'.
-//         - If the user asks for code, debugging, or technical architecture, route to 'codeAgent'.
-//         - If the user asks about a document or PDF, route to 'pdfAgent'.
-//         - For all general conversation, greetings, and queries, route to 'chatAgent'.
-//         Analyze the conversation and determine which worker should respond next.`
-//     );
-
-//     // Pass the system prompt and the entire chat history to the supervisor
-//     const messages = [systemPrompt, ...state.messages];
-//     console.time("[TIMER] LLM Generation");
-//     const decision = await supervisorLLM.invoke(messages);
-//     console.timeEnd("[TIMER] LLM Generation");
-
-//     return { nextAgent: decision.nextAgent };
-// };
-
-// module.exports = { supervisorNode };
-
 
 const { z } = require("zod");
 const { SystemMessage } = require("@langchain/core/messages");

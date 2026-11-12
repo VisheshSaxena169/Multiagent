@@ -75,14 +75,25 @@ const ChatAgent = ({ threadId }) => {
       // Force token refresh if expired
       await api.get('/auth/api/user/profile');
 
-      const response = await fetch('http://zyqon.duckdns.org:3000/ai/chat', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        },
-        body: JSON.stringify({ prompt: finalPrompt, threadId })
-      });
+      // const response = await fetch('http://zyqon.duckdns.org:3000/ai/chat', {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //     'Authorization': `Bearer ${localStorage.getItem('token')}`
+      //   },
+      //   body: JSON.stringify({ prompt: finalPrompt, threadId })
+      // });
+
+     const serverUrl = import.meta.env.VITE_SERVER_URL 
+
+const response = await fetch(`${serverUrl}/ai/chat`, {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+    },
+    body: JSON.stringify({ prompt: finalPrompt, threadId })
+});
 
       if (!response.ok) {
         if (response.status === 401) throw new Error("Session expired. Please refresh.");

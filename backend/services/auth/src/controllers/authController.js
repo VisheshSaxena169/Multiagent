@@ -1,27 +1,8 @@
 const authService = require('../services/authService');
 const jwt = require('jsonwebtoken');
 
-// const verifyGoogleAuth = async (req, res) => {
-//     const { idToken } = req.body;
+const User = require('../models/User.model'); // Adjust the path if your model is named differently
 
-//     if (!idToken) {
-//         return res.status(400).json({ success: false, message: "Token is missing" });
-//     }
-
-//     try {
-//         // Pass the token to the service layer
-//         const user = await authService.verifyGoogleToken(idToken);
-
-//         res.status(200).json({ 
-//             success: true, 
-//             message: "Authentication successful", 
-//             user: user 
-//         });
-//     } catch (error) {
-//         console.error("Firebase Admin Error Details:", error);
-//         res.status(401).json({ success: false, message: "Invalid or expired token" });
-//     }
-// };
 const verifyGoogleAuth = async (req, res) => {
     const { idToken } = req.body;
 
@@ -63,7 +44,24 @@ const verifyGoogleAuth = async (req, res) => {
     }
 };
 
+// In backend/services/auth/src/controllers/authController.js
+const getMemory = async (req, res) => {
+  const user = await User.findById(req.params.userId);
+  res.json({ success: true, memory: user.aiMemory });
+};
+
+const addMemory = async (req, res) => {
+  const { fact } = req.body; // e.g., "User's name is Vishesh Saxena"
+  const user = await User.findByIdAndUpdate(
+    req.params.userId, 
+    { $push: { aiMemory: fact } },
+    { new: true }
+  );
+  res.json({ success: true, memory: user.aiMemory });
+};
 
 module.exports = {
-    verifyGoogleAuth
+    verifyGoogleAuth,getMemory,
+    addMemory
+    
 };

@@ -128,6 +128,8 @@ app.get("/history/:threadId",requireAuth, async (req, res) => {
 app.post("/chat",requireAuth, async (req, res) => {
     const { prompt, threadId } = req.body;
 
+    console.log(`\n=== NEW CHAT REQUEST ===\nPrompt: "${prompt}"\nUser: ${req.userId}`);
+
     if (!appWorkflow) return res.status(500).json({ error: "AI initializing..." });
 
     try {
@@ -189,7 +191,8 @@ app.post("/chat",requireAuth, async (req, res) => {
         const inputs = { 
             messages: [{ role: "user", content: cleanPrompt }],
             nextAgent: fastRoute,
-            skipSupervisor: skipSupervisor
+            skipSupervisor: skipSupervisor,
+            userId: req.userId // <--- ADD THIS LINE HERE!
         };
         // 2. Stream events as they happen in the graph (using only 2 arguments)
         const stream = await appWorkflow.streamEvents(inputs, config);

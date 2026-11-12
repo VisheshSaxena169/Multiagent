@@ -1,29 +1,3 @@
-// const { MongoClient } = require("mongodb");
-// const { MongoDBSaver } = require("@langchain/langgraph-checkpoint-mongodb");
-
-// let checkpointer = null;
-
-// const initializeMemory = async () => {
-//     if (checkpointer) return checkpointer;
-
-//     const client = new MongoClient(process.env.MONGO_URI);
-//     await client.connect();
-    
-//     // In the latest version, we pass the connected MongoClient directly
-//     // and specify the database name in the configuration object.
-//     checkpointer = new MongoDBSaver({ 
-//         client: client,
-//         dbName: "multi_agent_db" 
-//     });
-    
-//     console.log("LangGraph MongoDB Checkpointer initialized");
-//     return checkpointer;
-// };
-
-// module.exports = { initializeMemory };
-
-
-
 
 
 const { MongoClient } = require("mongodb");

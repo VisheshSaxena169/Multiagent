@@ -1,38 +1,4 @@
-// const mongoose = require("mongoose");
 
-// const userSchema = new mongoose.Schema(
-//     {
-//         name: {
-//             type: String,
-//             required: true,
-//             trim: true,
-//         },
-
-//         email: {
-//             type: String,
-//             required: true,
-//             unique: true,
-//             lowercase: true,
-//             trim: true,
-//         },
-
-//         password: {
-//             type: String,
-//             required: true,
-//             minlength: 6,
-//             select: false
-//         },
-//     },
-//     {
-//         timestamps: true,
-//     }
-// );
-
-// const User = mongoose.model("User", userSchema);
-
-// module.exports = User;
-
-// src/models/user.model.js
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
@@ -63,7 +29,11 @@ const userSchema = new mongoose.Schema({
     },
     picture: { 
         type: String 
-    }
+    },
+    aiMemory: {
+    type: [String], // Array of strings is easiest to manage
+    default: []
+  }
 }, { timestamps: true });
 
 module.exports = mongoose.models.User || mongoose.model('User', userSchema);

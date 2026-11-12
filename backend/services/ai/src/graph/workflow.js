@@ -54,6 +54,7 @@ const GraphState = Annotation.Root({
         reducer: messagesStateReducer,
         default: () => [],
     }),
+    
     nextAgent: Annotation({
         reducer: (currentState, incomingState) => incomingState,
         default: () => "chatAgent",
@@ -62,7 +63,12 @@ const GraphState = Annotation.Root({
     skipSupervisor: Annotation({
         reducer: (currentState, incomingState) => incomingState !== undefined ? incomingState : currentState,
         default: () => false,
-    })
+    }),
+    // ADD THIS LINE so the graph knows what a userId is:
+    userId: Annotation({
+        reducer: (x, y) => y ?? x,
+        default: () => null,
+    }),
 });
 
 const buildWorkflow = async () => {
