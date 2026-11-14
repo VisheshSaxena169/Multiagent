@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@capacitor/android": "^8.6.2",
+    "@capacitor/core": "^8.6.2",
     "@reduxjs/toolkit": "^2.13.0",
     "@tailwindcss/typography": "^0.5.20",
     "axios": "^1.21.0",
@@ -26,6 +28,8 @@
     "uuid": "^14.0.3"
   },
   "devDependencies": {
+    "@capacitor/assets": "^4.0.0",
+    "@capacitor/cli": "^8.6.2",
     "@rolldown/binding-win32-x64-msvc": "^1.2.15",
     "@tailwindcss/postcss": "^4.3.4",
     "@tailwindcss/vite": "^4.0.0",

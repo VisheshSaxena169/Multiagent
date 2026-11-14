@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">zyqon</string>
+    <string name="title_activity_main">zyqon</string>
+    <string name="package_name">com.zyqon.multiagent</string>
+    <string name="custom_url_scheme">com.zyqon.multiagent</string>
+</resources>

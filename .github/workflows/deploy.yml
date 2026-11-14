@@ -2,6 +2,10 @@ name: Deploy to AWS
 on:
   push:
     branches: [ main ]
+    paths-ignore:
+      - 'frontend/android/**'
+      - 'frontend/assets/**'
+      - 'frontend/capacitor.config.json'
 
 jobs:
   deploy:

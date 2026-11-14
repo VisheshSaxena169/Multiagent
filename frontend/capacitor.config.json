@@ -1,0 +1,9 @@
+{
+  "appId": "com.zyqon.multiagent",
+  "appName": "zyqon",
+  "webDir": "dist",
+  "server": {
+    "androidScheme": "http",
+    "cleartext": true
+  }
+}
